@@ -1,0 +1,36 @@
+{
+  "name": "ai-persona",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "npm run fetch:github && npm run ingest && next build",
+    "start": "next start",
+    "ingest": "tsx scripts/ingest.ts",
+    "fetch:github": "tsx scripts/fetch-github.ts",
+    "eval": "tsx scripts/eval.ts",
+    "check:setup": "tsx scripts/check-setup.ts",
+    "test:oauth": "tsx scripts/test-oauth.ts",
+    "test:calendar": "tsx scripts/test-calendar.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.89.0",
+    "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
+    "googleapis": "^166.0.0",
+    "lucide-react": "^0.556.0",
+    "next": "^16.0.8",
+    "openai": "^6.10.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "zod": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.2",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

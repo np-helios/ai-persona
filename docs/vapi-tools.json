@@ -1,0 +1,42 @@
+[
+  {
+    "name": "answer_question",
+    "description": "Answer grounded questions about Nishtha's resume, GitHub projects, skills, and role fit.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "question": {
+          "type": "string",
+          "description": "The caller's question."
+        }
+      },
+      "required": ["question"]
+    }
+  },
+  {
+    "name": "get_availability",
+    "description": "Get open interview slots from Nishtha's real calendar.",
+    "parameters": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "book_interview",
+    "description": "Book a confirmed interview slot.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "start": { "type": "string", "description": "Exact ISO datetime of selected slot, if known." },
+        "slotLabel": { "type": "string", "description": "Human-readable slot label from availability." },
+        "localDate": { "type": "string", "description": "Local date for natural-language booking." },
+        "localStartTime": { "type": "string", "description": "Local start time for natural-language booking." },
+        "timezone": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["name", "email", "timezone"]
+    }
+  }
+]

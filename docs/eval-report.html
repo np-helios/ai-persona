@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AI Persona Eval Report</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 14mm;
+      }
+
+      body {
+        color: #17211f;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 10.5pt;
+        line-height: 1.35;
+      }
+
+      h1 {
+        font-size: 18pt;
+        margin: 0 0 8px;
+      }
+
+      h2 {
+        font-size: 10.5pt;
+        margin: 10px 0 4px;
+        text-transform: uppercase;
+      }
+
+      p {
+        margin: 0 0 6px;
+      }
+
+      strong {
+        color: #0c6f62;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AI Persona Eval Report</h1>
+
+    <h2>Voice Quality</h2>
+    <p>
+      Tested <strong>TODO N</strong> calls through Vapi using Twilio PSTN.
+      First-response latency was measured from call connection to first
+      synthesized token in Vapi logs; p50: <strong>TODO ms</strong>, p95:
+      <strong>TODO ms</strong>. Transcription accuracy was manually labelled on
+      <strong>TODO</strong> utterances with names, repo titles, and
+      interruptions; word accuracy: <strong>TODO%</strong>. Booking task
+      completion: <strong>TODO/TODO</strong> calls successfully checked calendar,
+      proposed a free slot, created an event, and sent confirmation.
+    </p>
+
+    <h2>Chat Groundedness</h2>
+    <p>
+      Built a golden set of <strong>TODO</strong> questions across resume,
+      GitHub READMEs, recent commits, adversarial prompt injections, and unknown
+      facts. Hallucination rate was measured by manual labels plus a judge pass
+      requiring every factual claim to be supported by retrieved chunks:
+      <strong>TODO%</strong>. Retrieval quality was measured by expected source
+      files in top-5 chunks; precision@5: <strong>TODO</strong>, recall@5:
+      <strong>TODO</strong>.
+    </p>
+
+    <h2>Failure Modes</h2>
+    <p>
+      1. <strong>TODO failure</strong>: root cause TODO; fix TODO.<br />
+      2. <strong>TODO failure</strong>: root cause TODO; fix TODO.<br />
+      3. <strong>TODO failure</strong>: root cause TODO; fix TODO.
+    </p>
+
+    <h2>Tradeoff</h2>
+    <p>Chose <strong>TODO</strong> over <strong>TODO</strong> because TODO.</p>
+
+    <h2>Two More Weeks</h2>
+    <p>
+      Add repository-level code search, automated voice regression tests, richer
+      calendar negotiation, production observability, and a larger labelled eval
+      set.
+    </p>
+  </body>
+</html>
