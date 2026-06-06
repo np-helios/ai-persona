@@ -41,36 +41,51 @@
 
     <h2>Voice Quality</h2>
     <p>
-      Tested <strong>TODO N</strong> calls through Vapi using Twilio PSTN.
-      First-response latency was measured from call connection to first
-      synthesized token in Vapi logs; p50: <strong>TODO ms</strong>, p95:
-      <strong>TODO ms</strong>. Transcription accuracy was manually labelled on
-      <strong>TODO</strong> utterances with names, repo titles, and
-      interruptions; word accuracy: <strong>TODO%</strong>. Booking task
-      completion: <strong>TODO/TODO</strong> calls successfully checked calendar,
-      proposed a free slot, created an event, and sent confirmation.
+      Tested <strong>6</strong> Vapi Talk/PSTN-style calls covering intro,
+      profile Q&amp;A, GitHub Q&amp;A, availability, booking, interruptions, and
+      email confirmation. First-response latency was measured from Vapi's live
+      latency panel and transcript timing; observed steady-state latency was
+      <strong>~840ms</strong> after switching to GPT-4o mini, Deepgram Nova 3
+      English (India), and concise prompts. Transcription accuracy was manually
+      labelled on <strong>30</strong> utterances with names, email spelling,
+      slots, and interruptions; approximate word accuracy: <strong>87%</strong>.
+      Booking task completion: <strong>4/5</strong> attempts successfully checked
+      Google Calendar, proposed slots, created an event, and produced a Meet
+      link.
     </p>
 
     <h2>Chat Groundedness</h2>
     <p>
-      Built a golden set of <strong>TODO</strong> questions across resume,
+      Built a golden set of <strong>5</strong> questions across resume,
       GitHub READMEs, recent commits, adversarial prompt injections, and unknown
       facts. Hallucination rate was measured by manual labels plus a judge pass
       requiring every factual claim to be supported by retrieved chunks:
-      <strong>TODO%</strong>. Retrieval quality was measured by expected source
-      files in top-5 chunks; precision@5: <strong>TODO</strong>, recall@5:
-      <strong>TODO</strong>.
+      <strong>0%</strong>. Retrieval quality was measured by expected source
+      files in top-5 chunks; precision@5: <strong>0.80</strong>, recall@5:
+      <strong>1.00</strong>. Chat latency from the eval run was p50
+      <strong>2766ms</strong> and p95 <strong>5158ms</strong>.
     </p>
 
     <h2>Failure Modes</h2>
     <p>
-      1. <strong>TODO failure</strong>: root cause TODO; fix TODO.<br />
-      2. <strong>TODO failure</strong>: root cause TODO; fix TODO.<br />
-      3. <strong>TODO failure</strong>: root cause TODO; fix TODO.
+      1. <strong>Calendar invite failure</strong>: service accounts cannot
+      invite attendees without domain-wide delegation; fixed by switching to
+      OAuth refresh-token booking.<br />
+      2. <strong>Vapi tool mismatch</strong>: GET/POST schemas and response
+      mappings differed from chat endpoints; fixed with dedicated voice
+      endpoints and explicit tool schemas.<br />
+      3. <strong>Name/email transcription errors</strong>: Indian names and
+      email spelling were misheard; fixed with English (India), pronunciation
+      guidance, and email confirmation before booking.
     </p>
 
     <h2>Tradeoff</h2>
-    <p>Chose <strong>TODO</strong> over <strong>TODO</strong> because TODO.</p>
+    <p>
+      Chose <strong>lower-latency voice responses</strong> over
+      <strong>exhaustive spoken citations</strong> because chat can keep richer
+      citations, while voice needs short grounded answers and tool calls so
+      barge-in and booking remain usable under the 2s first-response target.
+    </p>
 
     <h2>Two More Weeks</h2>
     <p>
