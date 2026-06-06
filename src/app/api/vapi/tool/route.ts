@@ -63,11 +63,11 @@ function normalizeToolCalls(body: any): NormalizedToolCall[] {
     }));
   }
 
-  if (body?.name) {
+  if (body?.tool || body?.name) {
     return [
       {
         id: String(body.id ?? body.toolCallId ?? "call-0"),
-        name: String(body.name),
+        name: String(body.tool ?? body.name),
         args: body.arguments ?? body.parameters ?? topLevelArgs(body)
       }
     ];
@@ -86,7 +86,8 @@ function topLevelArgs(body: Record<string, unknown>) {
     "customer",
     "assistant",
     "timestamp",
-    "artifact"
+    "artifact",
+    "tool"
   ]);
 
   return Object.fromEntries(
