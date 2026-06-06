@@ -68,12 +68,30 @@ function normalizeToolCalls(body: any): NormalizedToolCall[] {
       {
         id: String(body.id ?? body.toolCallId ?? "call-0"),
         name: String(body.name),
-        args: body.arguments ?? body.parameters ?? {}
+        args: body.arguments ?? body.parameters ?? topLevelArgs(body)
       }
     ];
   }
 
   return [];
+}
+
+function topLevelArgs(body: Record<string, unknown>) {
+  const ignored = new Set([
+    "id",
+    "name",
+    "toolCallId",
+    "message",
+    "call",
+    "customer",
+    "assistant",
+    "timestamp",
+    "artifact"
+  ]);
+
+  return Object.fromEntries(
+    Object.entries(body).filter(([key]) => !ignored.has(key))
+  );
 }
 
 async function runTool(name: string, args: Record<string, unknown>) {
