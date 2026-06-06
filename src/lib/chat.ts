@@ -174,10 +174,7 @@ async function maybeHandleCalendarFastPath(
 
   if (bookingContext) {
     const slots = await getAvailability();
-    const conversation = messages
-      .slice(-8)
-      .map((item) => item.content)
-      .join("\n");
+    const conversation = bookingConversation(messages);
     const email = conversation.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)?.[0];
     const name = extractName(conversation);
     const slot = findRequestedSlot(conversation, slots);
@@ -236,6 +233,8 @@ function formatAvailability(slots: AvailabilitySlot[]) {
 function extractName(message: string) {
   const patterns = [
     /\bfor\s+(.+?)\s+at\s+[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i,
+    /\bwith\s+(.+?)\s+at\s+[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i,
+    /\bwith\s+(.+?)(?:,|\n|$)/i,
     /\brecruiter\s+is\s+(.+?)(?:\s+and\s+email|\s+and\s+the\s+email|,|\n|$)/i,
     /\binterviewer\s+is\s+(.+?)(?:\s+and\s+email|\s+and\s+the\s+email|,|\n|$)/i,
     /\bname\s+is\s+(.+?)(?:,|\n|$)/i,
@@ -249,6 +248,29 @@ function extractName(message: string) {
   }
 
   return "";
+}
+
+function bookingConversation(
+  messages: z.infer<typeof incomingMessageSchema>["messages"]
+) {
+  const recent = messages.slice(-10);
+  let start = 0;
+  for (let index = recent.length - 2; index >= 0; index -= 1) {
+    const content = recent[index].content.toLowerCase();
+    if (
+      recent[index].role === "assistant" &&
+      /\bbooked\b/.test(content) &&
+      /\bconfirmed\b/.test(content)
+    ) {
+      start = index + 1;
+      break;
+    }
+  }
+
+  return recent
+    .slice(start)
+    .map((item) => item.content)
+    .join("\n");
 }
 
 function cleanName(value: string) {
