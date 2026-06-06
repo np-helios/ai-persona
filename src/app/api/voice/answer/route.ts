@@ -4,7 +4,12 @@ import { answerWithTools } from "@/lib/chat";
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
-    const question = url.searchParams.get("question")?.trim();
+    const question = (
+      url.searchParams.get("question") ??
+      url.searchParams.get("q") ??
+      url.searchParams.get("query") ??
+      ""
+    ).trim();
 
     if (!question) {
       return NextResponse.json(
@@ -19,6 +24,8 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       answer: answer.content,
+      result: answer.content,
+      text: answer.content,
       sources: answer.sources ?? []
     });
   } catch (error) {
