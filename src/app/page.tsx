@@ -105,13 +105,6 @@ export default function Home() {
           </p>
         </section>
 
-        <section>
-          <h2>Submission</h2>
-          <p>
-            Use this URL for Part B after deployment. Use the Vapi/Twilio phone
-            number configured against the voice endpoints for Part A.
-          </p>
-        </section>
       </aside>
 
       <section className="main">
