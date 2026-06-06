@@ -1,7 +1,7 @@
 "use client";
 
 import { CalendarDays, Send, ShieldCheck } from "lucide-react";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 type Message = {
   role: "user" | "assistant";
@@ -17,6 +17,7 @@ const starters = [
 ];
 
 export default function Home() {
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
@@ -31,6 +32,10 @@ export default function Home() {
       (process.env.NEXT_PUBLIC_PERSONA_INITIALS || "NP").slice(0, 2).toUpperCase(),
     []
   );
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ block: "end" });
+  }, [messages, loading]);
 
   async function send(content: string) {
     const trimmed = content.trim();
@@ -123,6 +128,8 @@ export default function Home() {
               ) : null}
             </div>
           ))}
+          {loading ? <div className="message assistant thinking">Thinking...</div> : null}
+          <div ref={messagesEndRef} />
         </div>
 
         <div className="composer">
