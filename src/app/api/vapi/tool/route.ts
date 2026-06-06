@@ -6,7 +6,6 @@ function authorized(request: Request) {
   const expected = process.env.VAPI_SECRET;
   if (!expected) return true;
   const got = request.headers.get("x-vapi-secret");
-  if (!got) return true;
   return got === expected;
 }
 
