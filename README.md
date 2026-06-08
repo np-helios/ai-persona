@@ -7,12 +7,18 @@ This repository contains a live AI representative for Nishtha Pandey. It support
 - Vapi-compatible voice tool webhooks
 - Lightweight eval harness for groundedness, latency, and failure-mode tracking
 
+## Live Submission Links
+
+- Public chat: `https://nishtha-scaler-ai.vercel.app`
+- Voice agent phone number: `+1 609 447 8322`
+- GitHub repository: `https://github.com/np-helios/ai-persona`
+
 ## Architecture
 
 ```mermaid
 flowchart LR
-  Caller["Phone caller"] --> Vapi["Vapi / Twilio voice agent"]
-  Vapi --> VoiceTools["/api/vapi/tool"]
+  Caller["Phone caller"] --> Vapi["Vapi voice agent"]
+  Vapi --> VoiceTools["Voice tool endpoints"]
   Recruiter["Chat visitor"] --> Web["Next.js chat UI"]
   Web --> ChatAPI["/api/chat"]
   ChatAPI --> RAG["Local vector index"]
@@ -30,8 +36,8 @@ flowchart LR
 - Next.js app routes for the public chat and provider webhooks
 - OpenAI chat model for answer generation and tool use
 - OpenAI embeddings for local vector retrieval
-- Google Calendar API with a service account for real booking
-- Vapi or Twilio/Retell as the voice front end
+- Google Calendar API with OAuth refresh-token booking
+- Vapi as the voice front end
 
 ## Setup
 
@@ -73,12 +79,13 @@ flowchart LR
 
 ## Calendar Booking
 
-Create a Google Cloud service account, enable Google Calendar API, share Nishtha's calendar with the service account email, and set:
+Enable Google Calendar API, create an OAuth client, generate a refresh token for Nishtha's Google account, and set:
 
-- `GOOGLE_SERVICE_ACCOUNT_EMAIL`
-- `GOOGLE_PRIVATE_KEY`
 - `GOOGLE_CALENDAR_ID`
 - `PERSONA_EMAIL`
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `GOOGLE_REFRESH_TOKEN`
 
 The booking tool checks `freebusy` immediately before inserting an event, then sends attendee updates and creates a Google Meet link.
 
@@ -86,12 +93,15 @@ The booking tool checks `freebusy` immediately before inserting an event, then s
 
 Create a Vapi assistant with:
 
-- First message: `Hi, I’m Nishtha Pandey’s AI representative. I can answer questions about her background and help book an interview.`
-- System prompt URL: `https://YOUR_DOMAIN/api/voice/system-prompt`
-- Tool webhook URL: `https://YOUR_DOMAIN/api/vapi/tool`
-- Header: `x-vapi-secret: YOUR_SECRET`
+- Phone number: `+1 609 447 8322`
+- First message: `Hi, I’m Nish-tha Paan-day’s AI representative. I can answer questions about her background, GitHub work, and help book an interview from her real calendar availability.`
+- System prompt URL: `https://nishtha-scaler-ai.vercel.app/api/voice/system-prompt`
+- Availability tool URL: `https://nishtha-scaler-ai.vercel.app/api/availability`
+- Voice answer tool URL: `https://nishtha-scaler-ai.vercel.app/api/voice/answer`
+- Booking tool URL: `https://nishtha-scaler-ai.vercel.app/api/vapi/tool`
+- Header for secured Vapi webhook tools: `x-vapi-secret: YOUR_SECRET`
 
-Add tools matching `docs/vapi-tools.json`. Use a low-latency voice, interruption/barge-in enabled, endpointing around 300-500 ms, and the same deployed URL for all tool calls.
+Add tools matching `docs/vapi-tools.json`. Use a low-latency model, Deepgram English (India), interruption/barge-in enabled, endpointing around 300-500 ms, and the same deployed URL for all tool calls.
 
 ## Evals
 
