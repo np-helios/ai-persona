@@ -115,11 +115,26 @@ The current harness measures answer latency, source coverage, and simple golden-
 
 ## Cost Breakdown
 
-Approximate costs depend on current provider pricing and corpus size.
+Approximate costs depend on current provider pricing, call length, model choice,
+and corpus size. These are the costs observed/estimated during this build.
 
-- Chat session: one embedding for retrieval plus one or two chat completions, typically a few cents or less for short interviews.
-- Voice call: Vapi/Twilio/telephony plus STT/TTS/LLM. Optimize by using a fast model, concise prompts, and tool calls only when needed.
-- Calendar booking: Google Calendar API usage is negligible for this volume.
+| Component | Provider | Usage in this project | Approximate cost |
+| --- | --- | --- | --- |
+| Chat LLM answers | OpenAI | RAG answer generation for chat and voice answer endpoints | Observed OpenAI spend: about `$0.11` for 68 requests / 268k tokens during testing |
+| Embeddings | OpenAI | Resume/GitHub chunk embeddings during ingestion plus query embeddings | Included in the same OpenAI usage above; incremental cost is negligible for this small corpus |
+| Voice orchestration | Vapi | Phone agent runtime, tool calling, interruption handling | Vapi dashboard estimate: about `$0.09/min` with the low-latency setup |
+| Transcription | Deepgram via Vapi | Speech-to-text for phone calls | Included in Vapi per-minute estimate |
+| Voice output | Vapi voice | Text-to-speech for agent responses | Included in Vapi per-minute estimate |
+| Telephony | Vapi phone number | Public US inbound number `+1 609 447 8322` | Free Vapi number used; call minutes consume Vapi/telephony credits |
+| Hosting | Vercel | Next.js frontend and API routes | Free hobby deployment for this traffic level |
+| Calendar booking | Google Calendar API | Availability lookup, event insert, Google Meet creation | No direct cost at this usage level |
+| GitHub ingestion | GitHub public API | Fetches public repository context for RAG corpus | Free for this usage level |
+
+Estimated per interaction:
+
+- Chat session: usually `< $0.01` for one retrieval query plus one short answer.
+- Voice call: roughly `$0.09/min`; a 3-minute screening call is about `$0.27`, excluding any caller-side international charges.
+- Booking action: no meaningful extra cost beyond the LLM/tool call already used.
 
 ## Deployment Checklist
 
