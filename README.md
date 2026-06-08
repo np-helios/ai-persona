@@ -1,4 +1,4 @@
-# AI Persona for Scaler Screening
+# AI Persona 
 
 This repository contains a live AI representative for Nishtha Pandey. It supports:
 
