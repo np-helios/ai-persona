@@ -7,7 +7,7 @@ This repository contains a live AI representative for Nishtha Pandey. It support
 - Vapi-compatible voice tool webhooks
 - Lightweight eval harness for groundedness, latency, and failure-mode tracking
 
-## Live Submission Links
+## Live Links
 
 - Public chat: `https://nishtha-scaler-ai.vercel.app`
 - Voice agent phone number: `+1 609 447 8322`
